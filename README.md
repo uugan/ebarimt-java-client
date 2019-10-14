@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/uugan/ebarimt-java-client.svg?branch=master)](https://travis-ci.org/uugan/ebarimt-java-client)
+
 # ebarimt-java-client
 A java client library for getting/returning ebarimt's VAT bill. 
 
