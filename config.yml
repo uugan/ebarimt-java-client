@@ -1,0 +1,11 @@
+service:
+  -
+    put_url: "http://192.168.1.2:8080/put"
+    return_url: "http://192.168.1.2:8080/return"
+    company: "company1"
+    register: "000001"
+  -
+    put_url: "http://192.168.1.2:8081/put"
+    return_url: "http://192.168.1.2:8081/return"
+    company: "company2"
+    register: "000002"
