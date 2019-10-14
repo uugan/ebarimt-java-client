@@ -1,7 +1,8 @@
 # ebarimt-java-client
-A java client library for getting vat bill. 
+A java client library for getting/returning ebarimt's VAT bill. 
+
 (only for cash payment)
-## Download
+
 ## Config file
 Config file contains multiple companies configuration.
 By default library will seek config.yml file from VM arguments. 
@@ -21,6 +22,7 @@ service:
     company: "company2"
     register: "000002"
 ```
+## Download
 ### Maven
 ```xml
 <dependency>
@@ -42,7 +44,7 @@ service:
 ```
 public abstract Bill addStock(String bunaCode, String barcode, String productName, Double qty, Double unitPrice, Double total);
 
-public abstract Bill setUinfo(String userName, String departmentName, String msisdn, String paymentType, String src, String mrktcd);
+public abstract Bill setWorkerInfo(String userName, String departmentName, String msisdn, String paymentType, String src);
 
 - BunaCode contains example product codes.
 - addstock can be multiple times.
