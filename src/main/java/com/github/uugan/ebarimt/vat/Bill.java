@@ -1,4 +1,4 @@
-package mn.ebarimt.client.vat;
+package com.github.uugan.ebarimt.vat;
 
 public abstract class Bill {
 

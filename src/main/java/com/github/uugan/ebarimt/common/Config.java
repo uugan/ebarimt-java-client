@@ -1,4 +1,4 @@
-package mn.ebarimt.client.common;
+package com.github.uugan.ebarimt.common;
 
 import java.util.List;
 

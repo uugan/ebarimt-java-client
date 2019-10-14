@@ -1,10 +1,11 @@
-package mn.ebarimt.client;
+package com.github.uugan.ebarimt;
 
-import mn.ebarimt.client.common.BunaCode;
-import mn.ebarimt.client.common.RequestType;
-import mn.ebarimt.client.vat.Bill;
-import mn.ebarimt.client.vat.BillData;
-import mn.ebarimt.client.vat.ReturnBill;
+import com.github.uugan.ebarimt.common.BunaCode;
+import com.github.uugan.ebarimt.common.RequestType;
+import com.github.uugan.ebarimt.vat.Bill;
+import com.github.uugan.ebarimt.vat.BillData;
+import com.github.uugan.ebarimt.vat.ReturnBill;
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -29,7 +30,7 @@ public class EbarimtTest {
             //System.out.println(rb.getURL());
             assertEquals("URL is wrong", "http://192.168.1.2:8080/put", bd.getURL());
             assertEquals("URL is wrong", "http://192.168.1.2:8081/return", rb.getURL());
-            assertEquals("Total is wrong", "1.00", ((BillData) bd).amount);
+            Assert.assertEquals("Total is wrong", "1.00", ((BillData) bd).amount);
             assertEquals("Total stock size is wrong", 1, ((BillData) bd).stocks.size());
 
         } catch (Exception e) {

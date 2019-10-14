@@ -1,4 +1,4 @@
-package mn.ebarimt.client.common;
+package com.github.uugan.ebarimt.common;
 
 public enum BunaCode {
     //example bunacodes DELETE

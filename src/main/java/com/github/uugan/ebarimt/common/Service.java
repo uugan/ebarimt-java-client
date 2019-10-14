@@ -1,4 +1,4 @@
-package mn.ebarimt.client.common;
+package com.github.uugan.ebarimt.common;
 
 public final class Service {
     private String put_url;

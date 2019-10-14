@@ -1,15 +1,15 @@
-package mn.ebarimt.client;
+package com.github.uugan.ebarimt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.github.uugan.ebarimt.common.Config;
+import com.github.uugan.ebarimt.common.RequestType;
+import com.github.uugan.ebarimt.common.Service;
+import com.github.uugan.ebarimt.vat.Bill;
+import com.github.uugan.ebarimt.vat.BillData;
+import com.github.uugan.ebarimt.vat.Result;
+import com.github.uugan.ebarimt.vat.ReturnBill;
 import com.google.gson.Gson;
-import mn.ebarimt.client.common.Config;
-import mn.ebarimt.client.common.RequestType;
-import mn.ebarimt.client.common.Service;
-import mn.ebarimt.client.vat.Bill;
-import mn.ebarimt.client.vat.BillData;
-import mn.ebarimt.client.vat.Result;
-import mn.ebarimt.client.vat.ReturnBill;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.json.JSONArray;

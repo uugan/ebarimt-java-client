@@ -1,4 +1,4 @@
-package mn.ebarimt.client;
+package com.github.uugan.ebarimt;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
