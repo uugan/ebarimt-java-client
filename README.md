@@ -26,9 +26,10 @@ service:
 ### Maven
 ```xml
 <dependency>
-  <groupId>mn.ebarimt.client</groupId>
+  <groupId>com.github.uugan.ebarimt</groupId>
   <artifactId>ebarimt-java-client</artifactId>
   <version>1.0</version>
+  <type>pom</type>
 </dependency>
 ```
 ## Example

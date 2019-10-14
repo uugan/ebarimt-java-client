@@ -21,6 +21,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+    <distributionManagement>
+        <repository>
+            <id>bintray-uugan-ebarimt-java-client</id>
+            <name>uugan-ebarimt-java-client</name>
+            <url>https://api.bintray.com/maven/uugan/ebarimt-java-client/ebarimt-java-client/;publish=1</url>
+        </repository>
+    </distributionManagement>
     <build>
         <plugins>
             <plugin>
