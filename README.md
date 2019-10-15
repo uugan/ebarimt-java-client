@@ -26,6 +26,29 @@ service:
 ```
 ## Download
 ### Maven
+In maven settings.xml in profile tag add repository in repositories
+```xml
+     <repository>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+        <id>central</id>
+        <name>bintray</name>
+        <url>https://jcenter.bintray.com</url>
+    </repository>
+```
+also in pluginRepositories
+```xml
+     <pluginRepository>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+        <id>central</id>
+        <name>bintray-plugins</name>
+        <url>https://jcenter.bintray.com</url>
+    </pluginRepository>
+
+```
 ```xml
 <dependency>
   <groupId>com.github.uugan.ebarimt</groupId>
@@ -39,7 +62,7 @@ service:
 ```java
    final Ebarimt ebarimt = Ebarimt.create();
    Bill bd = ebarimt.initVAT("company1", RequestType.PUT)
-                    .addStock("Buna 2.0 code", "BarCode", "ItemName", 2.0, 1.0, 2.0) //qty, unitprice, total
+                    .addStock("Buna 2.0 code", "BarCode", "ItemName", 2.0, 1.0, 2.0) //buna code, barcode, itemname, qty, unitprice, total
                     .setWorkerInfo("staffName", "departmentName", "userID", "PaymentType", "source");
 
     Result result = ebarimt.putVAT((BillData) bd);
