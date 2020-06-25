@@ -1,26 +1,33 @@
 package com.github.uugan.ebarimt.vat;
 
-public class WorkerInfo
-{
+
+import lombok.Builder;
+import lombok.Data;
+import lombok.ToString;
+
+@Builder
+@Data
+@ToString
+public class WorkerInfo {
     /// 
     /// userID Эсвэл утасны дугаар
     /// 
-    public String userID;
+    private String userID;
     /// 
     /// Ажилтны алба, хэлтэс
     /// 
-    public String departmentname;
+    private String departmentname;
     /// 
     /// Ажилтны нэр
     /// 
-    public String username;
+    private String username;
     /// 
     /// Төлбөрийн төрөл
     /// 
-    public String paymenttype;
+    private String paymenttype;
     /// 
     /// Web, CRM, App etc
     /// 
-    public String sourcename;
+    private String sourcename;
 
 }

@@ -1,22 +1,24 @@
 package com.github.uugan.ebarimt.vat;
 
-public class CorpCheckRegNo
-{
+import lombok.Data;
+
+@Data
+public class CorpCheckRegNo {
     /// 
     /// Байгууллагын регистер шалгах
     /// 
-    public String citypayer;
+    private String citypayer;
 
-    public String vatpayer;
+    private String vatpayer;
 
-    public String name;
+    private String name;
 
-    public String found;
+    private String found;
 
-    public String vatpayerRegisteredDate;
+    private String vatpayerRegisteredDate;
 
-    public String receiptFound;
+    private String receiptFound;
 
-    public String lastReceiptDate;
+    private String lastReceiptDate;
 
 }

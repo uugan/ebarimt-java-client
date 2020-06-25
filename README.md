@@ -63,9 +63,11 @@ also in pluginRepositories
    final Ebarimt ebarimt = Ebarimt.create();
    Bill bd = ebarimt.initVAT("company1", RequestType.PUT)
                     .addStock("Buna 2.0 code", "BarCode", "ItemName", 2.0, 1.0, 2.0) //buna code, barcode, itemname, qty, unitprice, total
-                    .setWorkerInfo("staffName", "departmentName", "userID", "PaymentType", "source");
-
-    Result result = ebarimt.putVAT((BillData) bd);
+                    .setWorkerInfo("{staffName}", "{departmentName}", "{userID}", "{PaymentType}", "{source}")
+                    //.setCorporate("{corporate registerno}")
+;
+                    
+    Result result = ebarimt.putVAT(bd);
 
 ```
 public abstract Bill addStock(String bunaCode, String barcode, String productName, Double qty, Double unitPrice, Double total);
@@ -80,7 +82,7 @@ public abstract Bill setWorkerInfo(String userName, String departmentName, Strin
 ### Return vat example
 ```java
    final Ebarimt ebarimt = Ebarimt.create();
-     ReturnBill rb = (ReturnBill) ebarimt.initVAT("company2", RequestType.RETURN)
+     Bill rb = ebarimt.initVAT("company2", RequestType.RETURN)
                      .setWorkerInfo("staffName", "departmentName", "userID", "PaymentType", "source")
                      .setReturnBillId("00000xxxxxxxxxxxxxxxxxxxxxxxxxxx");
    String resReturn = ebarimt.returnVAT(rb);
@@ -93,3 +95,6 @@ public abstract Bill setWorkerInfo(String userName, String departmentName, Strin
 * jackson-dataformat-yaml
 * jackson-databind
 * commons-lang
+## Todo
+* Generator invoice
+* Grouped BillData

@@ -1,71 +1,72 @@
 package com.github.uugan.ebarimt.vat;
 
 import com.google.gson.Gson;
+import lombok.Data;
 
 import java.util.List;
 
 /**********RETURN BILL***************/
 /// 
 /// API - с буцаах сугалааны дугаар, баримтын дугаар, алдааны мессеж г.м
-/// 
-public class Result
-{
+///
+@Data
+public class Result {
     /// 
     /// Баримтын дугаар
     /// 
-    public String billId;
+    private String billId;
     /// 
     ///  Баримтын НӨАТ агуулаагүй хөлийн дүн
     /// 
-    public String amount;
+    private String amount;
     /// 
     /// Бэлэн төлбөрийн дүн
     /// 
-    public String cashAmount;
+    private String cashAmount;
     /// 
     /// Бэлэн бус төлбөрийн дүн
     /// 
-    public String nonCashAmount;
+    private String nonCashAmount;
     /// 
     /// Баримтын НӨАТ дүн   
     /// 
-    public String vat;
+    private String vat;
     /// 
     /// Баримт хэвлэсэн огноо
     /// 
-    public String date;
+    private String date;
     /// 
     /// TicketId, lottery, merchantId, хөлийн дүн талбаруудыг агуулсан дотоод кодчилол
     /// 
-    public String internalCode;
+    private String internalCode;
     /// 
     /// Сугалааны дугаар
     /// 
-    public String lottery;
+    private String lottery;
     /// 
     /// НӨАТУС-системд үүсгэсэн Merchant-ийн дугаар
     /// 
-    public String merchantId;
+    private String merchantId;
     /// 
     /// Баримтан дээр хэвлэгдэх QR code
     /// 
-    public String qrData;
+    private String qrData;
     /// 
     /// Нийслэл хотын албан татвар
     /// 
-    public String cityTax;
+    private String cityTax;
     /// 
     /// Бэлэн бус гүйлгээний мэдээлэл
     /// 
-    public List<BillBankTransaction> bankTransactions;
+    private List<BillBankTransaction> bankTransactions;
     /// 
     /// Авсан бараа үйлчилгээ
     /// 
-    public List<BillDetail> stocks;
+    private List<BillDetail> stocks;
     /// 
     /// Алдааны код
     /// 
-    public String errorCode;
+    private String errorCode;
     /// 
     /// Алдааны мессеж
     /// 
@@ -73,15 +74,15 @@ public class Result
     /// 
     /// Амжилттай татсан буюу Амжилттай буцаасан
     /// 
-    public String success;
+    private String success;
     /// 
     /// Алдаа болон анхрааруулгын мессеж
     /// 
-    public String warningMsg;
+    private String warningMsg;
     /// 
     /// Сугалаа өгөх боломжгүй болсон тухайн тайлбар анхааруулга мессеж
     /// 
-    public String lotteryWarningMsg;
+    private String lotteryWarningMsg;
 
     public String toJsonStr() {
         Gson gson = new Gson();

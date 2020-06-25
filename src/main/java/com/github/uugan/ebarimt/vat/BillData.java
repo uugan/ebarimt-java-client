@@ -1,6 +1,8 @@
 package com.github.uugan.ebarimt.vat;
 
 import com.google.gson.Gson;
+import lombok.Builder;
+import lombok.experimental.SuperBuilder;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -8,125 +10,135 @@ import java.util.List;
 
 ///
 /// Баримтын мэдээлэл
-/// 
+///
+@SuperBuilder
 public class BillData extends Bill {
+
+    private final transient DecimalFormat df = new DecimalFormat("#0.00");
     /// 
     /// Баримтын НӨАТ агуулаагүй хөлийн дүн
-    /// 
-    public String amount;
+    ///
+    @Builder.Default
+    public String amount = "0.00";
     /// 
     /// Баримтын НӨАТ дүн
-    /// 
-    public String vat;
+    ///
+    @Builder.Default
+    public String vat = "0.00";
     /// 
     /// Бэлэн төлбөрийн дүн
-    /// 
-    public String cashAmount;
+    ///
+    @Builder.Default
+    public String cashAmount = "0.00";
     /// 
     /// Бэлэн бус төлбөрийн дүн
-    /// 
-    public String nonCashAmount;
+    ///
+    @Builder.Default
+    public String nonCashAmount = "0.00";
     /// 
     /// Баримтын дугаарыг давхцуулахгүйн тулд хэрэглэх залгавар /тухайн өдөрийн хэд дэхь баримт гэм/ : 6 оронтой
-    /// 
-    public String billIdSuffix;
+    ///
+    @Builder.Default
+    public String billIdSuffix = "";
     /// 
     /// Авсан бараа үйлчилгээ
-    /// 
-    public List<BillDetail> stocks;
+    ///
+    @Builder.Default
+    public List<BillDetail> stocks = new ArrayList<>();
     /// 
     /// Нийслэл хотын албан татвар
-    /// 
-    public String cityTax;
+    ///
+    @Builder.Default
+    public String cityTax = "0.00";
     /// 
     /// Бэлэн бус гүйлгээний мэдээлэл
-    /// 
-    public List<BillBankTransaction> bankTransactions;
+    ///
+    @Builder.Default
+    public List<BillBankTransaction> bankTransactions = new ArrayList<>();
     /// 
     /// Аймгийн код
-    /// 
-    public String districtCode;
+    ///
+    @Builder.Default
+    public String districtCode = "25"; //SBD by default
     /// 
     /// Хэрэглэгчийн системийн дахин давтагдашгүй дугаар : 6 оронтой тоон утга
-    /// 
-    public String posNo;
+    ///
+    @Builder.Default
+    public String posNo = "000000";
     /// 
     /// Баримтын төрөл : 1-Дэлгүүр 2-Худалдан авалт 3-Борлуулалт
-    /// 
-    public String billType;
+    ///
+    @Builder.Default
+    public String billType = "1";
     /// 
     /// Худалдан авагч байгууллагын ТТД эсвэл Иргэний регистерийн дугаар
-    /// 
-    public String customerNo;
+    ///
+    @Builder.Default
+    public String customerNo = "";
     /// 
     /// Ажилтны мэдээлэл
     /// 
     public WorkerInfo worker_info;
 
-    private transient boolean isVatCount;
-    private transient String _url;
+    @Builder.Default
+    private transient boolean isVatCount = true;
+    private transient String url;
 
-    public BillData() {
-        stocks = new ArrayList<>();
-        bankTransactions = new ArrayList<>();
-        billType = "1";
-        customerNo = "";
-        amount = "0.00";
-        cashAmount = "0.00";
-        nonCashAmount = "0.00";
-        vat = "0.00";
-        cityTax = "0.00";
-        billIdSuffix = "";
-        posNo = "000000";
-        districtCode = "25"; // Sukhbaatar district by default
-        isVatCount = true;
 
+    public String getUrl() {
+        return url;
     }
 
-    public String get_url() {
-        return _url;
-    }
-
-    public Bill set_url(String _url) {
-        this._url = _url;
+    public Bill setUrl(String url) {
+        this.url = url;
         return this;
     }
 
 
     @Override
     public Bill addStock(String bunaCode, String barcode, String productName, Double qty, Double unitPrice, Double total) {
-        DecimalFormat df = new DecimalFormat("#0.00");
-        BillDetail billDetail = new BillDetail();
-        billDetail.code = bunaCode;
-        billDetail.name = productName;
-        billDetail.measureUnit = "ш";
-        billDetail.qty = df.format(qty);
-        billDetail.unitPrice = df.format(unitPrice);
-        billDetail.totalAmount = df.format(total);
+
+        BillDetail billDetail = BillDetail.builder()
+                .code(bunaCode)
+                .name(productName)
+                .measureUnit("ш")
+                .qty(df.format(qty))
+                .unitPrice(df.format(unitPrice))
+                .totalAmount(df.format(total))
+                .barCode(barcode)
+                .cityTax("0.00")
+                .build();
+
         if (isVatCount) {
-            billDetail.vat = df.format((total - total / 1.1));
+            billDetail.setVat(df.format((total - total / 1.1)));
+        } else {
+            billDetail.setVat("0.00");
         }
-        else {
-            billDetail.vat = "0.00";
-        }
-        billDetail.barCode = barcode;
-        billDetail.cityTax = "0.00";
         stocks.add(billDetail);
 
+        calcTotal(total);
+
+        return this;
+    }
+
+    public Bill addStock(BillDetail stock) {
+        stocks.add(stock);
+        calcTotal(Double.parseDouble(stock.getTotalAmount()));
+        return this;
+    }
+
+    private void calcTotal(double total) {
         Double ttl = Double.parseDouble(amount);
         ttl += total;
-
-
         amount = df.format(ttl);
         if (isVatCount) {
             Double tvat = ttl - ttl / 1.1;
             vat = df.format(tvat);
+        } else {
+            vat = "0.00";
         }
-        else { vat = "0.00"; }
         cashAmount = amount;
-        return this;
     }
-
 
     @Override
     public Bill setCorporate(String customerNo) {
@@ -137,7 +149,7 @@ public class BillData extends Bill {
 
     @Override
     public String getURL() {
-        return _url;
+        return url;
     }
 
 
@@ -150,13 +162,19 @@ public class BillData extends Bill {
 
     @Override
     public Bill setWorkerInfo(String workerName, String departmentName, String userID, String paymentType, String src) {
-        WorkerInfo ui = new WorkerInfo();
-        ui.username = workerName;
-        ui.departmentname = departmentName;
-        ui.userID = userID;
-        ui.paymenttype = paymentType;
-        ui.sourcename = src;
-        worker_info = ui;
+        worker_info = WorkerInfo.builder()
+                .userID(userID)
+                .username(workerName)
+                .departmentname(departmentName)
+                .paymenttype(paymentType)
+                .sourcename(src)
+                .build();
+        return this;
+    }
+
+    @Override
+    public Bill setWorkerInfo(WorkerInfo workerInfo) {
+        worker_info = workerInfo;
         return this;
     }
 
@@ -170,7 +188,7 @@ public class BillData extends Bill {
 
     @Override
     public Bill setReturnBillId(String billId) {
-        return null;
+        return this;
     }
 
 

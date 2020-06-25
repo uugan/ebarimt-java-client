@@ -1,44 +1,50 @@
 package com.github.uugan.ebarimt.vat;
 
-/// 
+import lombok.Builder;
+import lombok.Data;
+import lombok.ToString;
+
+///
 /// Худалдан авсан бараа үйлчилгээ
-/// 
-public class BillDetail
-{
+///
+@Data
+@Builder
+@ToString
+public class BillDetail {
     /// 
     /// Авсан бараа үйлчилгээний код
     /// 
-    public String code;
+    private String code;
     /// 
     /// Авсан бараа үйлчилгээний дугаар
     /// 
-    public String name;
+    private String name;
     /// 
     /// Авсан бараа үйлчилгээний хэмжих нэгж
     /// 
-    public String measureUnit;
+    private String measureUnit;
     /// 
     /// Авсан бараа үйлчилгээний тоон хэмжээ
     /// 
-    public String qty;
+    private String qty;
     /// 
     /// Авсан бараа үйлчилгээний нэгж үнэ
     /// 
-    public String unitPrice;
+    private String unitPrice;
     /// 
     /// Авсан бараа үйлчилгээний нийт үнэ
     /// 
-    public String totalAmount;
+    private String totalAmount;
     /// 
     /// Авсан бараа үйлчилгээний НӨАТ
     /// 
-    public String vat;
+    private String vat;
     /// 
     /// Барааны 1D баркод
     /// 
-    public String barCode;
+    private String barCode;
     /// 
     /// Нийслэл хотын албан татвар
     /// 
-    public String cityTax;
+    private String cityTax;
 }

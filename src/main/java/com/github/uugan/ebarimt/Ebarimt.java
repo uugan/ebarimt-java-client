@@ -5,26 +5,23 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.uugan.ebarimt.common.Config;
 import com.github.uugan.ebarimt.common.RequestType;
 import com.github.uugan.ebarimt.common.Service;
-import com.github.uugan.ebarimt.vat.Bill;
-import com.github.uugan.ebarimt.vat.BillData;
-import com.github.uugan.ebarimt.vat.Result;
-import com.github.uugan.ebarimt.vat.ReturnBill;
+import com.github.uugan.ebarimt.vat.*;
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
 /**
  *
  */
+@Slf4j
 public final class Ebarimt {
-    private static Logger logger = LoggerFactory.getLogger(Ebarimt.class);
+
     private final Gson _gson;
     private static Ebarimt _instance;
     private static Config _svc;
@@ -34,10 +31,10 @@ public final class Ebarimt {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         try {
             _svc = mapper.readValue(new File(System.getProperty("conf", "config.yml")), Config.class);
-            logger.debug("config yml:" + ReflectionToStringBuilder.toString(_svc, ToStringStyle.MULTI_LINE_STYLE));
+            log.debug("config yml:" + ReflectionToStringBuilder.toString(_svc, ToStringStyle.MULTI_LINE_STYLE));
         } catch (Exception e) {
             System.out.println("Reading config file:" + e.getMessage());
-            logger.error("", e);
+            log.error("", e);
         }
     }
 
@@ -71,17 +68,17 @@ public final class Ebarimt {
             throw new Exception("Invalid url");
         }
 
-        return ((requestType == RequestType.PUT)) ? new BillData().set_url(url) : new ReturnBill().set_url(url);
+        return ((requestType == RequestType.PUT)) ? BillData.builder().url(url).build() : ReturnBill.builder().url(url).build();
     }
 
     /**
      * @param requestType type of request PUT or RETURN
-     * @param url  HTTP POST URL
+     * @param url         HTTP POST URL
      * @return Bill
      * @throws Exception
      */
     public Bill initVAT(RequestType requestType, String url) throws Exception {
-        return ((requestType == RequestType.PUT)) ? new BillData().set_url(url) : new ReturnBill().set_url(url);
+        return ((requestType == RequestType.PUT)) ? BillData.builder().url(url).build() : ReturnBill.builder().url(url).build();
     }
 
     /**
@@ -89,14 +86,18 @@ public final class Ebarimt {
      * @return retuns Result
      * @throws Exception
      */
-    public Result putVAT(BillData billData) throws Exception {
-        String strJSON = billData.toJsonStr();
-        String retResult = HttpUtil.send_json(billData.get_url(), strJSON);
-        if (isJSONValid(retResult)) {
-            return _gson.fromJson(retResult, Result.class);
+    public Result putVAT(Bill billData) throws Exception {
+        if (billData instanceof BillData) {
+            String strJSON = billData.toJsonStr();
+            String retResult = HttpUtil.send_json(((BillData) billData).getUrl(), strJSON);
+            if (isJSONValid(retResult)) {
+                return _gson.fromJson(retResult, Result.class);
+            } else {
+                log.error("Invalid json result:" + retResult);
+                throw new Exception("Invalid json result.");
+            }
         } else {
-            logger.error("Invalid json result:" + retResult);
-            throw new Exception("Invalid json result.");
+            throw new Exception("Object is not an instance of BillData.");
         }
     }
 
@@ -115,9 +116,32 @@ public final class Ebarimt {
      * @return
      * @throws Exception
      */
-    public String returnVAT(ReturnBill billData) throws Exception {
-        String strJSON = billData.toJsonStr();
-        return HttpUtil.send_json(billData.get_url(), strJSON);
+    public String returnVAT(Bill billData) throws Exception {
+        if (billData instanceof ReturnBill) {
+            String strJSON = billData.toJsonStr();
+            return HttpUtil.send_json(((ReturnBill) billData).get_url(), strJSON);
+        } else {
+            throw new Exception("Object is not an instance of BillData.");
+        }
+    }
+
+    /**
+     * @param url  return URL
+     * @param json
+     * @return
+     * @throws Exception
+     */
+    public String returnVAT(String url, String json) throws Exception {
+        return HttpUtil.send_json(url, json);
+    }
+
+    public CorpCheckRegNo checkRegNo(String regno) throws Exception {
+        String retJSON = HttpUtil.send_get("http://info.ebarimt.mn/rest/merchant/info?regno=" + regno, null);
+        if (isJSONValid(retJSON)) {
+            return _gson.fromJson(retJSON, CorpCheckRegNo.class);
+        } else {
+            throw new Exception("Invalid json.");
+        }
     }
 
     private boolean isJSONValid(String test) {
