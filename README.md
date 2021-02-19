@@ -26,35 +26,20 @@ service:
 ```
 ## Download
 ### Maven
-In maven settings.xml in profile tag add repository in repositories
+Already placed in github packages. In maven settings.xml in profile tag add repository in repositories
 ```xml
-     <repository>
-        <snapshots>
-            <enabled>false</enabled>
-        </snapshots>
-        <id>central</id>
-        <name>bintray</name>
-        <url>https://jcenter.bintray.com</url>
-    </repository>
+   <repository>
+       <id>github</id>
+       <name>GitHub OWNER Apache Maven Packages</name>
+       <url>https://maven.pkg.github.com/uugan/ebarimt-java-client</url>
+   </repository>
 ```
-also in pluginRepositories
-```xml
-     <pluginRepository>
-        <snapshots>
-            <enabled>false</enabled>
-        </snapshots>
-        <id>central</id>
-        <name>bintray-plugins</name>
-        <url>https://jcenter.bintray.com</url>
-    </pluginRepository>
 
-```
 ```xml
 <dependency>
   <groupId>com.github.uugan.ebarimt</groupId>
   <artifactId>ebarimt-java-client</artifactId>
   <version>1.0</version>
-  <type>pom</type>
 </dependency>
 ```
 ## Example
@@ -70,9 +55,12 @@ also in pluginRepositories
     Result result = ebarimt.putVAT(bd);
 
 ```
+```java
 public abstract Bill addStock(String bunaCode, String barcode, String productName, Double qty, Double unitPrice, Double total);
 
 public abstract Bill setWorkerInfo(String userName, String departmentName, String msisdn, String paymentType, String src);
+
+```
 
 - BunaCode contains example product codes.
 - addstock can be multiple times.

@@ -3,6 +3,13 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
+        <option value="$PROJECT_DIR$/../bootique/pom.xml" />
+        <option value="$PROJECT_DIR$/../xyp-service/pom.xml" />
+        <option value="$PROJECT_DIR$/../svc-core/pom.xml" />
+        <option value="$PROJECT_DIR$/../sputnik-core/pom.xml" />
+        <option value="$PROJECT_DIR$/../ub-core/pom.xml" />
+        <option value="$PROJECT_DIR$/../ub-family/pom.xml" />
+        <option value="$PROJECT_DIR$/../test-proj/pom.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
