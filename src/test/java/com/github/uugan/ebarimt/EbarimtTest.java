@@ -48,7 +48,7 @@ public class EbarimtTest {
     public void checkCorporate() {
         try {
             Bill bd = ebarimt.initVAT("company1", RequestType.PUT)
-                    .addStock(BunaCode.unit.getBunaCode(), "", "Negj", 1.0, 1.0, 1.0)
+                    .addStock(BunaCode.unit.getBunaCode(), "", "Baraa1", 1.0, 1.0, 1.0)
                     .setWorkerInfo("test", "test", "userId", "Invoice payment", "web")
                     .setCorporate("123467");
             // System.out.println(bd.getURL());

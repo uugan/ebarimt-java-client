@@ -26,14 +26,7 @@ service:
 ```
 ## Download
 ### Maven
-Already placed in github packages. In maven settings.xml in profile tag add repository in repositories
-```xml
-   <repository>
-       <id>github</id>
-       <name>GitHub OWNER Apache Maven Packages</name>
-       <url>https://maven.pkg.github.com/uugan/ebarimt-java-client</url>
-   </repository>
-```
+Already placed in github packages. 
 
 ```xml
 <dependency>

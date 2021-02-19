@@ -31,31 +31,26 @@ public class HttpUtil {
                     con.setRequestProperty(key, headers.get(key));
                 }
             }
-
             con.connect();
-            log.info("Resp Code:" + con.getResponseCode());
-            log.info("Resp Message:" + con.getResponseMessage());
-
             InputStream ins;
-            if (con.getResponseCode() != 200) {
-                ins = con.getErrorStream();
-            } else {
+            if (con.getResponseCode() >= 200 && con.getResponseCode() <= 299) {
                 ins = con.getInputStream();
+            } else {
+                ins = con.getErrorStream();
             }
 
             InputStreamReader isr = new InputStreamReader(ins);
             BufferedReader in = new BufferedReader(isr);
 
             String inputLine;
-            String retval = "";
+            String returnString = "";
 
             while ((inputLine = in.readLine()) != null) {
-                retval += inputLine + "\r\n";
+                returnString += inputLine + "\r\n";
             }
 
             in.close();
-            log.info("Response String:" + retval);
-            return retval;
+            return returnString;
         } catch (Exception e) {
             log.error("", e);
             throw e;
@@ -65,7 +60,6 @@ public class HttpUtil {
     public static String[] http_post(String url, byte[] data, Map<String, String> headers, int ctime, int rtime) throws Exception {
         try {
             String rcode;
-            log.debug("connecting to: " + url);
             HttpURLConnection con;
             if (url.startsWith("https")) {
                 con = (HttpsURLConnection) new URL(url).openConnection();
@@ -93,10 +87,10 @@ public class HttpUtil {
             rcode = con.getResponseCode() + ":" + con.getResponseMessage();
 
             InputStream ins;
-            if (con.getResponseCode() != 200) {
-                ins = con.getErrorStream();
-            } else {
+            if (con.getResponseCode() >= 200 && con.getResponseCode() >= 299) {
                 ins = con.getInputStream();
+            } else {
+                ins = con.getErrorStream();
             }
 
             ByteArrayOutputStream result = new ByteArrayOutputStream();
@@ -105,8 +99,8 @@ public class HttpUtil {
             while ((length = ins.read(buffer)) != -1) {
                 result.write(buffer, 0, length);
             }
-            String retval = result.toString("UTF-8");
-            return new String[]{rcode, retval};
+            String returnString = result.toString("UTF-8");
+            return new String[]{rcode, returnString};
         } catch (Exception e) {
             log.error("", e);
             throw e;
@@ -116,9 +110,8 @@ public class HttpUtil {
     public static String send_json(String url, String json) throws Exception {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
-        log.debug("send post url: " + url + " data:" + json);
         String[] ret = http_post(url, json.getBytes("UTF-8"), headers, 10000, 20000);
-        log.debug("response data: " + ret[1]);
+        log.debug("send_json [url={}, json={}, resp={}]",url,json, ret[1]);
         return ret[1];
     }
 
