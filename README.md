@@ -32,7 +32,7 @@ Already placed in github packages.
 <dependency>
   <groupId>com.github.uugan.ebarimt</groupId>
   <artifactId>ebarimt-java-client</artifactId>
-  <version>1.0</version>
+  <version>1.1</version>
 </dependency>
 ```
 ## Example
