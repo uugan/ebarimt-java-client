@@ -2,6 +2,7 @@ package com.github.uugan.ebarimt;
 
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
+
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -107,11 +108,11 @@ public class HttpUtil {
         }
     }
 
-    public static String send_json(String url, String json) throws Exception {
+    public static String send_json(String url, String json, int timeout) throws Exception {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
-        String[] ret = http_post(url, json.getBytes("UTF-8"), headers, 10000, 20000);
-        log.debug("send_json [url={}, json={}, resp={}]",url,json, ret[1]);
+        String[] ret = http_post(url, json.getBytes("UTF-8"), headers, 10000, timeout);
+        log.debug("send_json [url={}, json={}, resp={}]", url, json, ret[1]);
         return ret[1];
     }
 

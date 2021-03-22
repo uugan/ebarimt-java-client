@@ -39,13 +39,14 @@ Already placed in github packages.
 ### Get vat example
 ```java
    final Ebarimt ebarimt = Ebarimt.create();
-   Bill bd = ebarimt.initVAT("company1", RequestType.PUT)
-                    .addStock("Buna 2.0 code", "BarCode", "ItemName", 2.0, 1.0, 2.0) //buna code, barcode, itemname, qty, unitprice, total
-                    .setWorkerInfo("{staffName}", "{departmentName}", "{userID}", "{PaymentType}", "{source}")
+   Service svc = ebarimt.initVAT("company1");
+   BillRequest bd = new BillRequestData()
+                    .addStock(BunaCode.unit.getBunaCode(), "barcode", "ItemName", 2.0, 1.0, 2.0) //buna code, barcode, itemname, qty, unitprice, total
                     //.setCorporate("{corporate registerno}")
-;
-                    
-    Result result = ebarimt.putVAT(bd);
+                    .setWorkerInfo("staffName", "departmentName", "002", "Payment", "app");
+
+   System.out.println(bd.toJsonStr());
+   BillResponseData br = VatUtil.putVat(svc, bd, BillResponseData.class, 20000);
 
 ```
 ```java
@@ -56,17 +57,44 @@ public abstract Bill setWorkerInfo(String userName, String departmentName, Strin
 ```
 
 - BunaCode contains example product codes.
-- addstock can be multiple times.
-- if you need to give vat to company then call setCorporate with regno.
-- if you need to give bill without VAT then call setCountVat(false) 
+- *addstock* can be multiple times.
+- if you need to give vat to company then call *setCorporate* with regno.
+- if you need to give bill without VAT then call *setCountVat(false)* 
 - Result is a deserialized json result, which contains vat information
 ### Return vat example
 ```java
    final Ebarimt ebarimt = Ebarimt.create();
-     Bill rb = ebarimt.initVAT("company2", RequestType.RETURN)
-                     .setWorkerInfo("staffName", "departmentName", "userID", "PaymentType", "source")
-                     .setReturnBillId("00000xxxxxxxxxxxxxxxxxxxxxxxxxxx");
-   String resReturn = ebarimt.returnVAT(rb);
+   Service svc = ebarimt.initVAT("company2");
+   ReturnRequest rb = new ReturnRequestData()
+                    .setWorkerInfo("Worker1", "SalesTeam", "001", "PaymentReturn", "erp")
+                    .setReturnBillId("00000xxxxxxxxxxxxxxxxxxxxxxxxxxx");
+   ReturnResponseData resp = VatUtil.returnVat(svc, rb, ReturnResponseData.class, 20000);
+```
+### Grouped vat example
+```java
+        //First company
+        BillRequestData bd1 = new BillRequestData();
+        bd1.addStock(BunaCode.unit.getBunaCode(), "", "Бараа1", 1.0, 5.0, 5.0);
+        bd1.setRegisterNo("registerNo1");
+        bd1.setInternalId("1");
+        //Second company
+        BillRequestData bd2 = new BillRequestData();
+        bd2.addStock(BunaCode.unit.getBunaCode(), "", "Бараа1", 1.0, 4.0, 4.0);
+        bd2.setRegisterNo("registerNo2");
+        bd2.setInternalId("2");
+  try {
+            Service svc = ebarimt.initVAT("company1");
+            BillRequest real = new BillRequestData()
+                    .setGroup(true) //bundled vat
+                    .addBill(bd1)
+                    .addBill(bd2)
+                    .setWorkerInfo("Worker1", "SalesTeam", "001", "payment1", "system")
+                    .setCorporate("1000000");
+            System.out.println(real.toJsonStr());
+            BillResponseData br = VatUtil.putVat(svc, real, BillResponseData.class, 20000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 ```
 ## Requirements
 * Java 8+

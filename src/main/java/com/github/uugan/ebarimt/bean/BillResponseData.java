@@ -1,7 +1,8 @@
-package com.github.uugan.ebarimt.vat;
+package com.github.uugan.ebarimt.bean;
 
 import com.google.gson.Gson;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
@@ -10,7 +11,8 @@ import java.util.List;
 /// API - с буцаах сугалааны дугаар, баримтын дугаар, алдааны мессеж г.м
 ///
 @Data
-public class Result {
+@EqualsAndHashCode(callSuper = true)
+public class BillResponseData extends BillResponse {
     /// 
     /// Баримтын дугаар
     /// 
@@ -71,10 +73,10 @@ public class Result {
     /// Алдааны мессеж
     /// 
     public String message;
-    /// 
+    ///
     /// Амжилттай татсан буюу Амжилттай буцаасан
-    /// 
-    private String success;
+    ///
+    public boolean success;
     /// 
     /// Алдаа болон анхрааруулгын мессеж
     /// 
@@ -83,6 +85,12 @@ public class Result {
     /// Сугалаа өгөх боломжгүй болсон тухайн тайлбар анхааруулга мессеж
     /// 
     private String lotteryWarningMsg;
+    ///
+    ///
+    ///
+    public List<BillRequestData> bills;
+    public Boolean group;
+    public String invoiceId;
 
     public String toJsonStr() {
         Gson gson = new Gson();

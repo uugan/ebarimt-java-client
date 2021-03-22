@@ -1,4 +1,4 @@
-package com.github.uugan.ebarimt.vat;
+package com.github.uugan.ebarimt.bean;
 
 import lombok.Data;
 import lombok.ToString;
