@@ -106,4 +106,3 @@ public abstract Bill setWorkerInfo(String userName, String departmentName, Strin
 * commons-lang
 ## Todo
 * Generator invoice
-* Grouped BillData
