@@ -2,3 +2,12 @@
  language: java
  jdk:
    - oraclejdk8
+ script: mvn clean
+ after_success:
+    - mvn clean deploy -B
+ cache:
+    directories:
+       - $HOME/.m2
+ branches:
+    only:
+       - master
