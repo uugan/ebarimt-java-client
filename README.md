@@ -26,8 +26,27 @@ service:
 ```
 ## Download
 ### Maven
-Already placed in github packages. 
-
+Already placed in github packages.
+Maven settings looks like below: 
+```xml
+ <servers>
+        <server>
+            <id>github</id>
+            <username>yourname</username>
+            <password>your token</password>
+        </server>
+ </servers>
+```
+```xml
+<repositories>
+   <repository>
+        <id>github</id>
+        <name>GitHub OWNER Apache Maven Packages</name>
+        <url>https://maven.pkg.github.com/uugan/ebarimt-java-client</url>
+   </repository>
+</repositories>
+```
+In pom.xml under dependencies add: 
 ```xml
 <dependency>
   <groupId>com.github.uugan.ebarimt</groupId>
